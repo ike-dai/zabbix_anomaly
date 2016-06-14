@@ -127,7 +127,7 @@ func main() {
 		if int64_clock > time.Now().Unix()-interval {
 			send_data = append(send_data, zabbix_sender.DataItem{Hostname: host_name, Key: "anomaly." + orig_item_key, Value: strconv.FormatFloat(score, 'f', 10, 64), Timestamp: int64_clock})
 		}
-		//fmt.Printf("%s\t%s\t%f\n", clock, value, score)
+		fmt.Printf("%s\t%s\t%f\n", clock, value, score)
 	}
 	addr, _ := net.ResolveTCPAddr("tcp", zabbix_host+":"+zabbix_port)
 	res, err := zabbix_sender.Send(addr, send_data)

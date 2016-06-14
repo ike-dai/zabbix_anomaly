@@ -36,7 +36,7 @@ for example:
 
 * Item name: any
 * Type: External check
-* Key: zabbix_anomaly["-i","<target item id>","-user","<Zabbix API username>","-pass","<Zabbix API user password","-interval","set check interval(seconds)"]
+* Key: zabbix_anomaly["-i","target item id","-user","Zabbix API username","-pass","Zabbix API user password","-interval","set check interval(seconds)"]
 * Update interval: any(This number should match zabbix_anomaly command -interval option number)
 * Type of Information: Character
 
@@ -46,6 +46,8 @@ for example:
 * Type: Zabbix trapper
 * Key: anomaly.<original item key> (e.g. anomaly.system.cpu.load[percpu,avg1])
 * Type of Information: Numeric(float)
+
+![sample graph](images/zabbix_anomaly_graph.png "sample graph")
 
 # Contact
 
