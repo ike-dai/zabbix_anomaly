@@ -47,7 +47,7 @@ for example:
 * Key: anomaly.<original item key> (e.g. anomaly.system.cpu.load[percpu,avg1])
 * Type of Information: Numeric(float)
 
-![sample graph](images/zabbix_anomaly_graph.png "sample graph")
+![sample graph](https://github.com/ike-dai/zabbix_anomaly/wiki/images/zabbix_anomaly_graph.png)
 
 # Contact
 
