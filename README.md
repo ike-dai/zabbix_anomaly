@@ -1,4 +1,4 @@
-# Zabbix Anomaly Detectior plugin
+# Zabbix Anomaly Detector plugin
 
 Anomaly detection score monitoring plugin for Zabbix
 
