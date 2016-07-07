@@ -89,11 +89,19 @@ func main() {
 	flag.Parse()
 
 	api := zabbix.NewAPI(zabbix_api_url)
-	_, _ = api.Login(zabbix_user, zabbix_password)
+	_, err := api.Login(zabbix_user, zabbix_password)
+	if err != nil {
+		fmt.Printf("[ERROR]: zabbix api login error: %s", err)
+		os.Exit(1)
+	}
 	now := time.Now().Unix()
 
 	// Get orig item info
-	item_response, _ := api.Call("item.get", zabbix.Params{"itemids": itemid, "selectHosts": "extend", "output": "extend"})
+	item_response, err := api.Call("item.get", zabbix.Params{"itemids": itemid, "selectHosts": "extend", "output": "extend"})
+	if err != nil {
+		fmt.Printf("[ERROR]: zabbix api item.get error: %s", err)
+		os.Exit(1)
+	}
 	for _, item := range item_response.Result.([]interface{}) {
 		value_type = item.(map[string]interface{})["value_type"].(string)
 		orig_item_key = item.(map[string]interface{})["key_"].(string)
