@@ -64,7 +64,7 @@ func NewChangePoint(outlier_term int, outlier_discount float64, score_term int, 
 func main() {
 	var zabbix_host, zabbix_port, zabbix_api_url, zabbix_user, zabbix_password, itemid string
 	var value_type, host_name, orig_item_key, orig_item_delay string
-	var interval, from_time int64
+	var interval, from_time, num int64
 	var send_data []zabbix_sender.DataItem
 	var outlier_term, score_term, smooth_term int
 	var outlier_discount, score_discount float64
@@ -86,6 +86,8 @@ func main() {
 	flag.IntVar(&smooth_term, "smooth_term", 5, "Set smooth_term num")
 	flag.Float64Var(&outlier_discount, "outlier_discount", 0.02, "Set outlier_discount value")
 	flag.Float64Var(&score_discount, "scoure_discount", 0.02, "Set score_discount value")
+	flag.Int64Var(&num, "num", 30, "Set evaluation datapoint num")
+	flag.Int64Var(&num, "n", 30, "Set evaluation datapoint num")
 	flag.Parse()
 
 	api := zabbix.NewAPI(zabbix_api_url)
@@ -107,7 +109,7 @@ func main() {
 		orig_item_key = item.(map[string]interface{})["key_"].(string)
 		orig_item_delay = item.(map[string]interface{})["delay"].(string)
 		int64_delay, _ := strconv.ParseInt(orig_item_delay, 10, 64)
-		from_time = now - int64_delay*30
+		from_time = now - int64_delay*num
 
 		for _, host := range item.(map[string]interface{})["hosts"].([]interface{}) {
 			host_name = host.(map[string]interface{})["name"].(string)
