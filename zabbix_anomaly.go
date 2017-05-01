@@ -112,7 +112,7 @@ func main() {
 		from_time = now - int64_delay*num
 
 		for _, host := range item.(map[string]interface{})["hosts"].([]interface{}) {
-			host_name = host.(map[string]interface{})["name"].(string)
+			host_name = host.(map[string]interface{})["host"].(string)
 		}
 	}
 
