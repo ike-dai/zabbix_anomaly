@@ -40,6 +40,10 @@ for example:
 * Update interval: any(This number should match zabbix_anomaly command -interval option number)
 * Type of Information: Character
 
+Notes:
+If you change Zabbix trapper item key, zabbix_anomaly support -prefix parameter.
+(default: anomaly.<original item key>, -prefix "test" -> test.<original item key>)
+
 2. Score register item
 
 * Item name: any
