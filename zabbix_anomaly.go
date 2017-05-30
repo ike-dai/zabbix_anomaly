@@ -68,6 +68,7 @@ func main() {
 	var send_data []zabbix_sender.DataItem
 	var outlier_term, score_term, smooth_term int
 	var outlier_discount, score_discount float64
+	var item_prefix string
 	// Set Option
 	flag.StringVar(&zabbix_host, "host", "localhost", "Set zabbix host name")
 	flag.StringVar(&zabbix_host, "h", "localhost", "Set zabbix host name")
@@ -88,6 +89,7 @@ func main() {
 	flag.Float64Var(&score_discount, "scoure_discount", 0.02, "Set score_discount value")
 	flag.Int64Var(&num, "num", 30, "Set evaluation datapoint num")
 	flag.Int64Var(&num, "n", 30, "Set evaluation datapoint num")
+	flag.StringVar(&item_prefix, "prefix", "anomaly", "Set registered trapper item key prefix")
 	flag.Parse()
 
 	api := zabbix.NewAPI(zabbix_api_url)
@@ -135,7 +137,7 @@ func main() {
 		score := cp.Update(value_float64)
 		int64_clock, _ := strconv.ParseInt(clock, 10, 64)
 		if int64_clock > time.Now().Unix()-interval {
-			send_data = append(send_data, zabbix_sender.DataItem{Hostname: host_name, Key: "anomaly." + orig_item_key, Value: strconv.FormatFloat(score, 'f', 10, 64), Timestamp: int64_clock})
+			send_data = append(send_data, zabbix_sender.DataItem{Hostname: host_name, Key: item_prefix + "." + orig_item_key, Value: strconv.FormatFloat(score, 'f', 10, 64), Timestamp: int64_clock})
 		}
 		fmt.Printf("%s\t%s\t%f\n", clock, value, score)
 	}
