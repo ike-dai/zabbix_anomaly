@@ -142,10 +142,14 @@ func main() {
 		fmt.Printf("%s\t%s\t%f\n", clock, value, score)
 	}
 	addr, _ := net.ResolveTCPAddr("tcp", zabbix_host+":"+zabbix_port)
-	res, err := zabbix_sender.Send(addr, send_data)
-	if err != nil {
-		fmt.Printf("[ERROR]: zabbix sender error!: %s", err)
-		os.Exit(1)
+	if len(send_data) > 0 {
+		res, err := zabbix_sender.Send(addr, send_data)
+		if err != nil {
+			fmt.Printf("[ERROR]: zabbix sender error!: %s", err)
+			os.Exit(1)
+		}
+		fmt.Printf("[INFO]: Successful sending data to Zabbix: %s", res)
+	} else {
+		fmt.Printf("[INFO]: No sending data")
 	}
-	fmt.Printf("[INFO]: Successful sending data to Zabbix: %s", res)
 }
