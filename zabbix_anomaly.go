@@ -86,7 +86,7 @@ func main() {
 	flag.IntVar(&score_term, "score_term", 5, "Set score_term num")
 	flag.IntVar(&smooth_term, "smooth_term", 5, "Set smooth_term num")
 	flag.Float64Var(&outlier_discount, "outlier_discount", 0.02, "Set outlier_discount value")
-	flag.Float64Var(&score_discount, "scoure_discount", 0.02, "Set score_discount value")
+	flag.Float64Var(&score_discount, "score_discount", 0.02, "Set score_discount value")
 	flag.Int64Var(&num, "num", 30, "Set evaluation datapoint num")
 	flag.Int64Var(&num, "n", 30, "Set evaluation datapoint num")
 	flag.StringVar(&item_prefix, "prefix", "anomaly", "Set registered trapper item key prefix")
