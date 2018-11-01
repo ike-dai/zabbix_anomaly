@@ -9,6 +9,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -64,7 +65,7 @@ func NewChangePoint(outlier_term int, outlier_discount float64, score_term int, 
 func main() {
 	var zabbix_host, zabbix_port, zabbix_api_url, zabbix_user, zabbix_password, itemid string
 	var value_type, host_name, orig_item_key, orig_item_delay string
-	var interval, from_time, num int64
+	var interval, from_time, num, sec_multiplier int64
 	var send_data []zabbix_sender.DataItem
 	var outlier_term, score_term, smooth_term int
 	var outlier_discount, score_discount float64
@@ -110,7 +111,21 @@ func main() {
 		value_type = item.(map[string]interface{})["value_type"].(string)
 		orig_item_key = item.(map[string]interface{})["key_"].(string)
 		orig_item_delay = item.(map[string]interface{})["delay"].(string)
-		int64_delay, _ := strconv.ParseInt(orig_item_delay, 10, 64)
+
+		// for support Time suffixes feature over Zabbix 3.4.0
+		sec_multiplier = 1
+		if strings.HasSuffix(orig_item_delay, "m") {
+			sec_multiplier = 60
+		} else if strings.HasSuffix(orig_item_delay, "h") {
+			sec_multiplier = 60 * 60
+		} else if strings.HasSuffix(orig_item_delay, "d") {
+			sec_multiplier = 60 * 60 * 24
+		} else if strings.HasSuffix(orig_item_delay, "w") {
+			sec_multiplier = 60 * 60 * 24 * 7
+		}
+		delay_count := orig_item_delay[:len(orig_item_delay)-1]
+		int64_delay_count, _ := strconv.ParseInt(delay_count, 10, 64)
+		int64_delay := int64_delay_count * sec_multiplier
 		from_time = now - int64_delay*num
 
 		for _, host := range item.(map[string]interface{})["hosts"].([]interface{}) {
@@ -118,9 +133,6 @@ func main() {
 		}
 	}
 
-	//fmt.Println(item_response)
-	//fmt.Println(host_name)
-	//fmt.Println(value_type)
 	// Get Zabbix History
 	response, _ := api.Call("history.get", zabbix.Params{"history": value_type, "itemids": itemid, "time_from": from_time, "time_till": now, "output": "extend"})
 	//cp := NewChangePoint(12, 0.0275, 6, 0.1, 12)
