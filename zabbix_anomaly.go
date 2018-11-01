@@ -116,15 +116,18 @@ func main() {
 		sec_multiplier = 1
 		if strings.HasSuffix(orig_item_delay, "m") {
 			sec_multiplier = 60
+			orig_item_delay = orig_item_delay[:len(orig_item_delay)-1]
 		} else if strings.HasSuffix(orig_item_delay, "h") {
 			sec_multiplier = 60 * 60
+			orig_item_delay = orig_item_delay[:len(orig_item_delay)-1]
 		} else if strings.HasSuffix(orig_item_delay, "d") {
 			sec_multiplier = 60 * 60 * 24
+			orig_item_delay = orig_item_delay[:len(orig_item_delay)-1]
 		} else if strings.HasSuffix(orig_item_delay, "w") {
 			sec_multiplier = 60 * 60 * 24 * 7
+			orig_item_delay = orig_item_delay[:len(orig_item_delay)-1]
 		}
-		delay_count := orig_item_delay[:len(orig_item_delay)-1]
-		int64_delay_count, _ := strconv.ParseInt(delay_count, 10, 64)
+		int64_delay_count, _ := strconv.ParseInt(orig_item_delay, 10, 64)
 		int64_delay := int64_delay_count * sec_multiplier
 		from_time = now - int64_delay*num
 
