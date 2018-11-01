@@ -11,6 +11,8 @@ Anomaly detection score monitoring plugin for Zabbix
 
 * Zabbix >= 3.0
 
+Tested in Zabbix 3.0, 4.0
+
 # Installation & Setting
 
 ## 1. Download
@@ -69,4 +71,4 @@ Licensed under the Apache License, Version 2.0. The Apache v2 full text is publi
 
 This tool is based on [go-anomalydetector](https://github.com/chobie/go-anomalydetector).
 
-Copyright 2016 Daisuke IKEDA.
+Copyright 2016-2018 Daisuke IKEDA.
