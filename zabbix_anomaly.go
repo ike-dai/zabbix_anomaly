@@ -114,7 +114,9 @@ func main() {
 
 		// for support Time suffixes feature over Zabbix 3.4.0
 		sec_multiplier = 1
-		if strings.HasSuffix(orig_item_delay, "m") {
+		if strings.HasSuffix(orig_item_delay, "s") {
+			orig_item_delay = orig_item_delay[:len(orig_item_delay)-1]
+		} else if strings.HasSuffix(orig_item_delay, "m") {
 			sec_multiplier = 60
 			orig_item_delay = orig_item_delay[:len(orig_item_delay)-1]
 		} else if strings.HasSuffix(orig_item_delay, "h") {
